@@ -7,10 +7,3 @@
   tasks:
   - include_role:
       name: ansible-role-resolv-conf
-    vars:
-      resolv_conf_nameservers:
-        - 10.1.62.145
-        - 8.8.8.8
-      resolv_conf_search:
-        - labrats.se
-        - redhat.labrats.se
