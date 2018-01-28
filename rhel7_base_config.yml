@@ -11,6 +11,6 @@
       resolv_conf_nameservers:
         - 10.1.62.145
         - 8.8.8.8
-      #resolv_conf_search:
-      #  - labrats.se
-      #  - redhat.labrats.se
+      resolv_conf_search:
+        - labrats.se
+        - redhat.labrats.se
