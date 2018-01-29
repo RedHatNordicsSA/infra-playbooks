@@ -1,0 +1,37 @@
+---
+- name: "[Play 1] Get IP and deploy a new VM in RHV"
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
+
+  - include_role:
+      name: ansible-role-phpipam-free-ip
+    vars:
+      phpipam_hostname: "{{ short_hostname + '.' + domain }}"
+
+  - include_role:
+      name: ansible-role-rhv-vm
+    vars:
+      rhv_vm_name: "{{ short_hostname }}"
+      rhv_vm_domain: "{{ domain }}"
+      rhv_vm_ip: "{{ phpipam_ip }}"
+      rhv_vm_netmask: "{{ phpipam_netmask }}"
+      rhv_vm_gw: "{{ phpipam_gw }}"
+      rhv_vm_dns1: "{{ phpipam_nameserver1 }}"
+
+  - name: Setup in-memory inventory
+    add_host:
+      name: "{{ phpipam_ip }}"
+      groups: just_created_vms
+
+- name: "[Play 2] Post Configuration of VM"
+  hosts: just_created_vms
+
+  tasks:
+  #- include_role:
+  #    name: ansible-role-satellite-bootstrap
+  #  vars:
