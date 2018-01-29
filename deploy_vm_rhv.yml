@@ -2,6 +2,7 @@
 - name: "[Play 1] Get IP and deploy a new VM in RHV"
   hosts: localhost
   gather_facts: false
+  connection: local
 
   tasks:
   - name: Include secrets
