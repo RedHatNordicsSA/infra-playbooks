@@ -9,7 +9,7 @@
     include_vars: secrets.yml
 
   - include_role:
-      name: ansible-role-phpipam-free-ip
+      name: ansible-role-phpipam-get-ip
     vars:
       phpipam_hostname: "{{ short_hostname + '.' + domain }}"
 
