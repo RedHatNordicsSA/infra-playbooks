@@ -35,6 +35,8 @@
   tasks:
   - include_role:
       name: ansible-role-resolv-conf
+  - include_role:
+      name: ansible-role-satellite-bootstrap
   #- include_role:
   #    name: ansible-role-satellite-bootstrap
   #  vars:

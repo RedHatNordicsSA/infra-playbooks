@@ -1,0 +1,13 @@
+---
+- name: Register host to satellite6
+  hosts: all
+  remote_user: root
+  vars:
+
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
+
+  - include_role:
+      name: ansible-role-satellite-bootstrap
