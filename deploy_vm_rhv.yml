@@ -33,6 +33,8 @@
   hosts: just_created_vms
 
   tasks:
+  - include_role:
+      name: ansible-role-resolv-conf
   #- include_role:
   #    name: ansible-role-satellite-bootstrap
   #  vars:
