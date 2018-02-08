@@ -6,7 +6,7 @@
 
   tasks:
   - name: Include secrets
-    no_log: true
+    no_log: false
     include_vars: secrets.yml
 
   - include_role:
