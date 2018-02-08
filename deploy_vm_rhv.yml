@@ -6,7 +6,7 @@
 
   tasks:
   - name: Include secrets
-    no_log: false
+    no_log: true
     include_vars: secrets.yml
 
   - include_role:
@@ -33,10 +33,10 @@
   hosts: just_created_vms
 
   tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
   - include_role:
       name: ansible-role-resolv-conf
   - include_role:
       name: ansible-role-satellite-bootstrap
-  #- include_role:
-  #    name: ansible-role-satellite-bootstrap
-  #  vars:
