@@ -1,0 +1,22 @@
+---
+- hosts: all
+
+  tasks:
+  - name: Include all secret credentials for ipam, RHV, Satellite and named. demo_secrets.yml is protected by ansible vault and the vault password is specified in Ansible Tower
+    no_log: true
+    include_vars: secrets.yml
+
+  - include_role:
+      name: ansible-role-phpipam-get-ip
+    vars:
+      phpipam_state: absent
+
+  - include_role:
+      name: ansible-role-satellite-bootstrap
+    vars:
+      satellite_bootstrap_state: absent
+
+#  - include_role:
+#      name: ansible-role-rhv-vm
+#      delegate_to: 127.0.0.1
+#    vars:
