@@ -42,3 +42,11 @@
       name: ansible-role-satellite-bootstrap
   - include_role:
       name: ansible-role-ipa-client
+     
+- name: "[Play 3] Post Configuration of monitoring"
+  hosts: nagios.redhat.labrats.se
+  
+  - include_role:
+      name: ansible-role-nagios-bootstrap
+    vars: 
+      monitored_server: "{{ short_hostname + '.' + domain }}" 
