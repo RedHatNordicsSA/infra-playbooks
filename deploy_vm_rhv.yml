@@ -54,4 +54,5 @@
   - include_role:
       name: ansible-role-nagios-bootstrap
     vars: 
-      monitored_server: "{{ short_hostname + '.' + domain }}" 
+      monitored_server: "{{ short_hostname + '.' + domain }}"
+      nagios_bootstrap_state: present
