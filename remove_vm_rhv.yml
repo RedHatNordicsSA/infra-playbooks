@@ -21,3 +21,10 @@
     delegate_to: 127.0.0.1
     vars:
        rhv_vm_state: absent
+       
+  - include_role:
+      name: ansible-role-nagios-bootstrap
+    delegate_to: nagios.labrats.se
+    vars: 
+      monitored_server: "{{ short_hostname + '.' + domain }}"
+      nagios_bootstrap_state: absent
