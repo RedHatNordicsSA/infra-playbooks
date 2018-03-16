@@ -46,7 +46,7 @@
       name: ansible-role-nagios-nrpe
 
 - name: "[Play 3] Post Configuration of monitoring"
-  hosts: nagios.redhat.labrats.se
+  hosts: 10.1.60.149
   tasks:
   - name: Include secrets
     no_log: true
