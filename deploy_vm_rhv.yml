@@ -42,7 +42,9 @@
       name: ansible-role-satellite-bootstrap
   - include_role:
       name: ansible-role-ipa-client
-     
+  - include_role:
+      name: ansible-role-nagios-nrpe
+
 - name: "[Play 3] Post Configuration of monitoring"
   hosts: nagios.redhat.labrats.se
   
