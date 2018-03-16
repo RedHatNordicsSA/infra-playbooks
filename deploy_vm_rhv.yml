@@ -47,7 +47,10 @@
 
 - name: "[Play 3] Post Configuration of monitoring"
   hosts: nagios.redhat.labrats.se
-  
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
   - include_role:
       name: ansible-role-nagios-bootstrap
     vars: 
