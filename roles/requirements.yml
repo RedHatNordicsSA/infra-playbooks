@@ -15,3 +15,6 @@
   version: 1.0.0
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-ipa-client.git
   scm: git
+- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-nagios-nrpe.git
+  scm: git
+
