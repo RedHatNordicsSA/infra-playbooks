@@ -17,4 +17,6 @@
   scm: git
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-nagios-nrpe.git
   scm: git
+- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-nagios-bootstrap.git
+  scm: git
 
