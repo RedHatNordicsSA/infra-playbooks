@@ -19,4 +19,5 @@
   scm: git
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-nagios-bootstrap.git
   scm: git
-
+- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-ovirt-guest.git
+  scm: git
