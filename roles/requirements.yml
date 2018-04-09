@@ -21,3 +21,6 @@
   scm: git
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-ovirt-guest.git
   scm: git
+- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-dist-pub-key
+  scm: git
+- redhataccess.redhat-access-insights-client

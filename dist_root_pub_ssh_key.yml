@@ -1,0 +1,9 @@
+---
+- name: Satellite Kickstart Post provisioning tasks
+  hosts: all
+  remote_user: root
+  vars:
+
+  tasks:
+  - include_role:
+      name: ansible-role-dist-pub-key
