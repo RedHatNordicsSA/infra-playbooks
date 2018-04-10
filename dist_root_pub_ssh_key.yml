@@ -7,3 +7,5 @@
   tasks:
   - include_role:
       name: ansible-role-dist-pub-key
+    vars:
+      dist_pub_key_public_ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4D4XT3w3qlR4VXpjHC2C0JKPv7ykLIcvG76vFq4OJblN2gcxu8Rj8kLSDxUnhD/4RZmkuttSR8NFjybEOz05y2Z5Bh0Mi2dwQJYX1oION4n50qFB7qgMBlb8bGq5oRC+1PtvvoxmkdXzWiX5q0ZN5IntJqkGnc1ziPgDdO7UHqv8RK1ouhSKzRGSs+6ZV3uunjCdvx1/zRKOKFPMeeJeohYhHXq5jevR4UorR5Ek/UMucWkKsft50L6HOQXCwzttQ4IMhKOiv9gLKmhCVJgLtV1uDXajMtkTFqn9WcPRfl9qkRRKFA9mU3SMW4L+mOSL8VKi4ZhxxG4qdqwW2RwEp root@ansible.labrats.se"
