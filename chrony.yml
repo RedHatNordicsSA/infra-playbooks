@@ -1,0 +1,11 @@
+---
+- name: Install and configure chronyd
+  hosts: all
+  remote_user: root
+  vars:
+    date_time_timeservers:
+      - 10.1.62.145
+
+  tasks:
+  - include_role:
+      name: ansible-role-date-time
