@@ -3,7 +3,6 @@
   version: 1.0.0
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-date-time.git
   scm: git
-  version: 1.0.0
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-phpipam-get-ip.git
   scm: git
   version: 1.0.0
