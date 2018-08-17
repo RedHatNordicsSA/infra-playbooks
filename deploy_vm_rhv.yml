@@ -41,6 +41,8 @@
   - include_role:
       name: ansible-role-satellite-bootstrap
   - include_role:
+      name: ansible-role-date-time
+  - include_role:
       name: ansible-role-ipa-client
   - include_role:
       name: ansible-role-nagios-nrpe
@@ -53,6 +55,6 @@
     include_vars: secrets.yml
   - include_role:
       name: ansible-role-nagios-bootstrap
-    vars: 
+    vars:
       monitored_server: "{{ short_hostname + '.' + domain }}"
       nagios_bootstrap_state: present
