@@ -19,6 +19,7 @@
   - include_role:
       name: ansible-role-rhv-vm
     delegate_to: 127.0.0.1
+    ansible_become: false
     vars:
        rhv_vm_state: absent
        
