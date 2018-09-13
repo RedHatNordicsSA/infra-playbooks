@@ -19,7 +19,7 @@
   - include_role:
       name: ansible-role-rhv-vm
     delegate_to: localhost
-    ansible_become: false
+    become: false
     vars:
        rhv_vm_state: absent
        
