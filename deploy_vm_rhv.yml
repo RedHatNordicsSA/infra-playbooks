@@ -1,11 +1,11 @@
 ---
-- name: "[Play 1] Get IP and deploy a new VM in RHV"
+- name: "[Play 1] Get IP and deploy a new VM in Red Hat Virtualization platform"
   hosts: localhost
   gather_facts: false
   connection: local
 
   tasks:
-  - name: Include secrets
+  - name: Include secrets to be used
     no_log: true
     include_vars: secrets.yml
 
@@ -24,12 +24,12 @@
       rhv_vm_gw: "{{ phpipam_gw }}"
       rhv_vm_dns1: "{{ phpipam_nameserver1 }}"
 
-  - name: Setup in-memory inventory
+  - name: Setup in-memory inventory for just created VM
     add_host:
       name: "{{ phpipam_ip }}"
       groups: just_created_vms
 
-- name: "[Play 2] Post Configuration of VM"
+- name: "[Play 2] Post Configuration of VM, setup the identity of the server"
   hosts: just_created_vms
 
   tasks:
@@ -47,7 +47,7 @@
   - include_role:
       name: ansible-role-nagios-nrpe
 
-- name: "[Play 3] Post Configuration of monitoring"
+- name: "[Play 3] Post Configuration of monitoring, ensure system is monitored in Nagios"
   hosts: nagios.labrats.se
   tasks:
   - name: Include secrets
