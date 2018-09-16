@@ -1,0 +1,13 @@
+/* set admin password SHA-512 encrypted */
+UPDATE `users` SET `password` = '{{ phpipam_admin_pass }}' WHERE `username` = "admin";
+
+/* disable first login password change */
+update `users` set `passChange` = 'No' where `username` = "admin";
+
+/* enable API */
+update `settings` set `api` = '1' where `id` = "1";
+
+/* create API service */
+INSERT INTO api (app_id, app_permissions, app_security)
+VALUES
+        ('{{ phpipam_api_id }}', '2', 'none');
