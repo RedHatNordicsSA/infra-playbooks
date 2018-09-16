@@ -17,6 +17,7 @@
     rhv_vm_cluster:
     rhv_vm_cpu_cores:
     rhv_vm_memory:
+    phpipam_version: 1.3.2
 
   tasks:
   - name: Include secrets to be used
@@ -159,7 +160,7 @@
       clone: yes
       umask: "022"
       force: yes
-      version:  "1.3.2"
+      version:  "{{ phpipam_version }}"
   - name: Ensure directories are 0755
     command: find {{ documentroot }} -type d -exec chmod 0755 {} \;
 
@@ -171,7 +172,7 @@
     with_items:
       - "{{documentroot+'/app/admin/import-export/upload/'}}"
       - "{{documentroot+'/app/subnets/import-subnet/upload/'}}"
-      - "{{documentroot+'/css/1.3.1/images/logo/'}}"
+      - "{{documentroot+'/css/'+phpipam_version+'/images/logo/'}}"
 
   - name: create config.php file
     copy:
