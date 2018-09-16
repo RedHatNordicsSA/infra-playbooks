@@ -1,0 +1,15 @@
+- name: "[Play 4] Install phpipam, Apache, MySQL and PHP"
+  hosts: all
+  vars:
+    phpipam_documentroot: "/var/www/html"
+    phpipam_version: 1.3.2
+    # SHA-512 encrypted pass, # perl -e 'print crypt("password","\$6\$saltsalt\$") . "\n"'
+    phpipam_admin_pass: "$6$saltsalt$bOVOf4/AKcMDyy/9Sxszk5ukhVJ/99lQf4MIIA45YbKherS7KPycF5KYr3Q8EwPOx9mkjTHZ2yOecvDWhU/Bi0"
+    # API app
+    phpipam_api_id: ansible 
+    
+  tasks:
+  - name: sql patch file
+    template:
+      src: "phpipam_first_setup.sql.j2"
+      dest: "{{ phpipam_documentroot }}/db/phpipam_first_setup.sql"
