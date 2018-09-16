@@ -1,0 +1,20 @@
+---
+- name: "[Play 1] Get IP"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+  - name: Include secrets to be used
+    no_log: true
+    include_vars: secrets.yml
+
+  - include_role:
+      name: ansible-role-phpipam-get-ip
+    vars:
+      phpipam_hostname: "{{ short_hostname + '.' + domain }}"
+
+  - name: Setup in-memory inventory for just created VM
+    add_host:
+      name: "{{ phpipam_ip }}"
+      groups: just_created_vms
