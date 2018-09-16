@@ -5,10 +5,12 @@
   connection: local
   vars:
     vm_fqdn:
-    vm_ip:
-    vm_netmask:
-    vm_gw:
-    vm_nic_name:
+    vm_eth0_ip:
+    vm_eth0_netmask:
+    vm_eth0_gw:
+    vm_eth1_ip:
+    vm_eth1_netmask:
+    vm_eth1_gw:
     vm_dns:
     rhv_vnic_profile_name:
     rhv_vm_template:
@@ -40,19 +42,24 @@
       memory: "{{ rhv_vm_memory }}"
       wait: True
       nics:
-        - name: nic1
-          profile_name: "{{ rhv_vnic_profile_name }}"
         - name: nic2
           profile_name: "{{ rhv_vnic_profile_name }}"
       cloud_init:
-        nic_boot_protocol: static
-        nic_ip_address: "{{ vm_ip }}"
-        nic_netmask: "{{ vm_netmask }}"
-        nic_gateway: "{{ vm_gw }}"
-        nic_name: "{{ vm_nic_name }}"
-        nic_on_boot: true
-        dns_servers: "{{ vm_dns }}"
         host_name: "{{ vm_fqdn }}"
+        dns_servers: "{{ vm_dns }}"
+      cloud_init_nics:
+        - nic_name: eth0
+          nic_boot_protocol: static
+          nic_ip_address: "{{ vm_eth0_ip }}"
+          nic_netmask: "{{ vm_eth0_netmask }}"
+          nic_gateway: "{{ vm_eth0_gw }}"
+          nic_on_boot: true
+        - nic_name: eth1
+          nic_boot_protocol: static
+          nic_ip_address: "{{ vm_eth1_ip }}"
+          nic_netmask: "{{ vm_eth1_netmask }}"
+          nic_gateway: "{{ vm_eth1_gw }}"
+          nic_on_boot: true
 
   - name: Wait for Virtual Machine to boot up and become responsive to SSH
     wait_for:
