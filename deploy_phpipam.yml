@@ -77,21 +77,21 @@
       name: "{{ vm_eth1_ip }}"
       groups: just_created_vms
 
-#- name: "[Play 2] Post Configuration of VM, setup the identity of the server"
-#  hosts: just_created_vms
-#
-#  tasks:
-#  - name: Include secrets
-#    no_log: true
-#    include_vars: secrets.yml
-#  - include_role:
-#      name: ansible-role-resolv-conf
-#  - include_role:
-#      name: ansible-role-satellite-bootstrap
-#  - include_role:
-#      name: ansible-role-date-time
-#  - include_role:
-#      name: ansible-role-ipa-client
+- name: "[Play 2] Post Configuration of VM, setup the identity of the server"
+  hosts: just_created_vms
+
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
+  - include_role:
+      name: ansible-role-resolv-conf
+  - include_role:
+      name: ansible-role-satellite-bootstrap
+  - include_role:
+      name: ansible-role-date-time
+  - include_role:
+      name: ansible-role-ipa-client
 #  - include_role:
 #      name: ansible-role-nagios-nrpe
 
