@@ -106,3 +106,78 @@
 #    vars:
 #      monitored_server: "{{ short_hostname + '.' + domain }}"
 #      nagios_bootstrap_state: present
+
+- name: "[Play 4] Install phpipam, Apache, MySQL and PHP"
+  hosts: just_created_vms
+  vars:
+    documentroot: "/var/www/html"
+
+  tasks:
+  - include_role:
+      name: geerlingguy.git
+    vars:
+      git_packages:
+        - git
+  - include_role:
+      name: marcelnijenhof.firewalld
+    vars:
+      firewalld_allow_services:
+        - { service: "http" }
+        - { service: "https" }
+  - include_role:
+      name: geerlingguy.apache
+    vars:
+      apache_vhosts:
+        - { servername: "{{ ansible_fqdn }}", documentroot: "/var/www/html" }
+  - include_role:
+      name: geerlingguy.php
+    vars:
+      php_enablerepo: "rhel-7-server-optional-rpms"
+      php_date_timezone: "Europe/Stockholm"
+      php_packages:
+        - php
+        - php-cli
+        - php-common
+        - php-gd
+        - php-ldap
+        - php-mbstring
+        - php-pdo
+        - php-pear
+        - php-xml
+        - php-snmp
+        - php-mysql
+        - php-mcrypt
+  - include_role:
+      name: geerlingguy.mysql
+    vars:
+      # use vault for securing the mysql_root_password
+      mysql_root_password: Sthlab-04
+  - name: Install phpipam
+    git:
+      repo: "https://github.com/phpipam/phpipam.git"
+      dest: "{{ documentroot }}"
+      clone: yes
+      umask: "022"
+      force: yes
+      version:  "1.3.2"
+  - name: Ensure directories are 0755
+    command: find {{ documentroot }} -type d -exec chmod 0755 {} \;
+
+  - name: Ensure files are 0644
+    command: find {{ documentroot }} -type f -exec chmod 0644 {} \;
+
+  - name: Set SELinux file context
+    command: chcon -t httpd_sys_rw_content_t "{{ item }}" -R
+    with_items:
+      - "{{documentroot+'/app/admin/import-export/upload/'}}"
+      - "{{documentroot+'/app/subnets/import-subnet/upload/'}}"
+      - "{{documentroot+'/css/1.3.1/images/logo/'}}"
+
+  - name: create config.php file
+    copy:
+      src: "{{documentroot+'/config.dist.php'}}"
+      dest: "{{documentroot+'/config.php'}}"
+      remote_src: yes
+      owner: root
+      group: root
+      mode: 0644
