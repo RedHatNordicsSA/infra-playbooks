@@ -42,6 +42,8 @@
       nics:
         - name: nic1
           profile_name: "{{ rhv_vnic_profile_name }}"
+        - name: nic2
+          profile_name: "{{ rhv_vnic_profile_name }}"
       cloud_init:
         nic_boot_protocol: static
         nic_ip_address: "{{ vm_ip }}"
