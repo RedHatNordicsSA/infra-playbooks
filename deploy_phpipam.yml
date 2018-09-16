@@ -172,7 +172,7 @@
     with_items:
       - "{{documentroot+'/app/admin/import-export/upload/'}}"
       - "{{documentroot+'/app/subnets/import-subnet/upload/'}}"
-      - "{{documentroot+'/css/'+phpipam_version+'/images/logo/'}}"
+      - "{{documentroot+'/css/images/logo/'}}"
 
   - name: create config.php file
     copy:
