@@ -1,0 +1,100 @@
+---
+- name: "[Play 1] Deploy a new VM in the Red Hat Virtualization platform"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    vm_fqdn:
+    vm_ip:
+    vm_netmask:
+    vm_gw:
+    vm_nic_name:
+    vm_dns:
+    rhv_vnic_profile_name:
+    rhv_vm_template:
+    rhv_vm_cluster:
+    rhv_vm_cpu_cores:
+    rhv_vm_memory:
+
+  tasks:
+  - name: Include secrets to be used
+    no_log: true
+    include_vars: secrets.yml
+
+  - name: Obtain SSO token for authentication to Red Hat Virtualization
+    no_log: false
+    ovirt_auth:
+      url: "{{ rhv_vm_url }}"
+      username: "{{ rhv_vm_username }}"
+      password: "{{ rhv_vm_password }}"
+      ca_file: "{{ rhv_vm_cafile }}"
+
+  - name: Create Virtual Machine
+    ovirt_vms:
+      auth: "{{ ovirt_auth }}"
+      state: present
+      name: "{{ vm_fqdn }}"
+      template: "{{ rhv_vm_template }}"
+      cluster: "{{ rhv_vm_cluster }}"
+      cpu_cores: "{{ rhv_vm_cpu_cores }}"
+      memory: "{{ rhv_vm_memory }}"
+      wait: True
+      nics:
+        - name: nic1
+          profile_name: "{{ rhv_vnic_profile_name }}"
+      cloud_init:
+        nic_boot_protocol: static
+        nic_ip_address: "{{ vm_ip }}"
+        nic_netmask: "{{ vm_netmask }}"
+        nic_gateway: "{{ vm_gw }}"
+        nic_name: "{{ vm_nic_name }}"
+        nic_on_boot: true
+        dns_servers: "{{ vm_dns }}"
+        host_name: "{{ vm_fqdn }}"
+
+  - name: Wait for Virtual Machine to boot up and become responsive to SSH
+    wait_for:
+      port=22
+      host="{{ vm_ip }}"
+      search_regex=OpenSSH
+      delay=10
+
+  - name: Revoke the SSO token we generated for provisioning the Virtual Machine
+    ovirt_auth:
+      state: absent
+      ovirt_auth: "{{ ovirt_auth }}"
+
+  - name: Setup in-memory inventory for just created VM
+    add_host:
+      name: "{{ vm_ip }}"
+      groups: just_created_vms
+
+#- name: "[Play 2] Post Configuration of VM, setup the identity of the server"
+#  hosts: just_created_vms
+#
+#  tasks:
+#  - name: Include secrets
+#    no_log: true
+#    include_vars: secrets.yml
+#  - include_role:
+#      name: ansible-role-resolv-conf
+#  - include_role:
+#      name: ansible-role-satellite-bootstrap
+#  - include_role:
+#      name: ansible-role-date-time
+#  - include_role:
+#      name: ansible-role-ipa-client
+#  - include_role:
+#      name: ansible-role-nagios-nrpe
+
+#- name: "[Play 3] Post Configuration of monitoring, ensure system is monitored in Nagios"
+#  hosts: nagios.labrats.se
+#  tasks:
+#  - name: Include secrets
+#    no_log: true
+#    include_vars: secrets.yml
+#  - include_role:
+#      name: ansible-role-nagios-bootstrap
+#    vars:
+#      monitored_server: "{{ short_hostname + '.' + domain }}"
+#      nagios_bootstrap_state: present
