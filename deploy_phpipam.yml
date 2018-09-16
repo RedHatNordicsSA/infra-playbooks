@@ -52,7 +52,6 @@
           nic_boot_protocol: static
           nic_ip_address: "{{ vm_eth0_ip }}"
           nic_netmask: "{{ vm_eth0_netmask }}"
-          nic_gateway: "{{ vm_eth0_gw }}"
           nic_on_boot: true
         - nic_name: eth1
           nic_boot_protocol: static
@@ -64,7 +63,7 @@
   - name: Wait for Virtual Machine to boot up and become responsive to SSH
     wait_for:
       port=22
-      host="{{ vm_ip }}"
+      host="{{ vm_eth1_ip }}"
       search_regex=OpenSSH
       delay=10
 
@@ -75,7 +74,7 @@
 
   - name: Setup in-memory inventory for just created VM
     add_host:
-      name: "{{ vm_ip }}"
+      name: "{{ vm_eth1_ip }}"
       groups: just_created_vms
 
 #- name: "[Play 2] Post Configuration of VM, setup the identity of the server"
