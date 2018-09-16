@@ -23,3 +23,8 @@
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-dist-pub-key
   scm: git
 - redhataccess.redhat-access-insights-client
+- geerlingguy.git
+- geerlingguy.apache
+- geerlingguy.php
+- geerlingguy.mysql
+- marcelnijenhof.firewalld
