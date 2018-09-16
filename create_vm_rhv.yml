@@ -1,0 +1,23 @@
+---
+- name: "[Play 1] Deploy a new VM in Red Hat Virtualization platform"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    verbose: false
+
+  tasks:
+  - name: Log vars
+    debug:
+      msg: "IP: {{ phpipam_ip }}"
+    when: verbose
+  #- include_role:
+  #    name: ansible-role-rhv-vm
+  #  vars:
+  #    rhv_vm_name: "{{ short_hostname }}"
+  #    rhv_vm_domain: "{{ domain }}"
+  #    rhv_vm_ip: "{{ phpipam_ip }}"
+  #    rhv_vm_netmask: "{{ phpipam_netmask }}"
+  #    rhv_vm_gw: "{{ phpipam_gw }}"
+  #    rhv_vm_dns1: "{{ phpipam_nameserver1 }}"
+
