@@ -3,6 +3,10 @@
   hosts: localhost
   gather_facts: false
   connection: local
+  vars:
+    phpipam_subnet:
+    short_hostname:
+    domain:
 
   tasks:
   - name: Include secrets to be used
