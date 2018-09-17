@@ -6,9 +6,23 @@
     # SHA-512 encrypted pass, # perl -e 'print crypt("password","\$6\$saltsalt\$") . "\n"'
     phpipam_admin_pass: "$6$saltsalt$bOVOf4/AKcMDyy/9Sxszk5ukhVJ/99lQf4MIIA45YbKherS7KPycF5KYr3Q8EwPOx9mkjTHZ2yOecvDWhU/Bi0"
     # API app
-    phpipam_api_id: ansible 
+    phpipam_api_id: ansible
+    phpipam_mysql_root_password: Sthlab-04
+    mysql_databases:
+      - name: phpipam
+    mysql_users:
+      - name: phpipam
+        host: "%"
+        password: phpipamadmin
+        priv: "phpipam.*:ALL"
     
   tasks:
+  - include_role:
+      name: geerlingguy.mysql
+    vars:
+      # use vault for securing the mysql_root_password
+      mysql_root_password: "{{ phpipam_mysql_root_password }}"
+
   - name: sql patch file
     template:
       src: "phpipam_first_setup.sql.j2"
