@@ -28,8 +28,12 @@
       src: "phpipam_first_setup.sql.j2"
       dest: "{{ phpipam_documentroot }}/db/phpipam_first_setup.sql"
       
-  - name: i
-    command: "mysql -u root -p{{ phpipam_mysql_root_password }} phpipam < {{ phpipam_documentroot }}/db/SCHEMA.sql"
-    
-  - name: ib
-    command: "mysql -u root -p{{ phpipam_mysql_root_password }} phpipam < {{ phpipam_documentroot }}/db/phpipam_first_setup.sql"
+  #- name: i
+  #  command: "mysql -u root -p{{ phpipam_mysql_root_password }} phpipam < {{ phpipam_documentroot }}/db/SCHEMA.sql"
+  - name: Import file.sql similar to mysql -u <username> -p <password> < some.sql
+    mysql_db:
+      state: import
+      name: phpipam
+      target: {{ phpipam_documentroot }}/db/SCHEMA.sql
+  #- name: ib
+  #  command: "mysql -u root -p{{ phpipam_mysql_root_password }} phpipam < {{ phpipam_documentroot }}/db/phpipam_first_setup.sql"
