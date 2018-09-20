@@ -18,6 +18,11 @@
     vars:
       phpipam_hostname: "{{ short_hostname + '.' + domain }}"
 
+  - name: "Pass variables to Tower Workflows"
+    set_stats:
+      data:
+        phpipam_ip:  "{{ phpipam_ip }}"
+
   - name: Setup in-memory inventory for just created VM
     add_host:
       name: "{{ phpipam_ip }}"
