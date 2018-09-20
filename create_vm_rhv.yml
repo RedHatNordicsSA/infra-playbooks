@@ -9,7 +9,7 @@
   tasks:
   - name: Log vars
     debug:
-      msg: "IP: {{ phpipam_ip }}"
+      msg: "IP: {{ phpipam_ip }} GW: {{ phpipam_gw }} Netmask: {{ phpipam_netmask }} Nameserver: {{ phpipam_nameserver1 }}"
     when: verbose
   #- include_role:
   #    name: ansible-role-rhv-vm
@@ -20,4 +20,3 @@
   #    rhv_vm_netmask: "{{ phpipam_netmask }}"
   #    rhv_vm_gw: "{{ phpipam_gw }}"
   #    rhv_vm_dns1: "{{ phpipam_nameserver1 }}"
-
