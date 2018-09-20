@@ -21,7 +21,10 @@
   - name: "Pass variables to Tower Workflows"
     set_stats:
       data:
-        phpipam_ip:  "{{ phpipam_ip }}"
+        phpipam_ip: "{{ phpipam_ip }}"
+        phpipam_gw: "{{ phpipam_gw }}"
+        phpipam_netmask: "{{ phpipam_netmask }}"
+        phpipam_nameserver1: "{{ phpipam_nameserver1 }}"
 
   - name: Setup in-memory inventory for just created VM
     add_host:
