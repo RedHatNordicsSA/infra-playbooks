@@ -1,0 +1,21 @@
+---
+- name: "[Play 1] Get IP"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    phpipam_ip:
+
+  tasks:
+  - name: Include secrets to be used
+    no_log: true
+    include_vars: secrets.yml
+
+  - name: Release IP
+    phpipam_ip:
+      base_url: "{{ phpipam_base_url }}"
+      app_id: "{{ phpipam_app_id }}"
+      username: "{{ phpipam_username }}"
+      password: "{{ phpipam_password }}"
+      ip_addr: "{{ phpipam_ip }}"
+      state: absent
