@@ -8,7 +8,6 @@
   version: 1.0.0
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-rhv-vm.git
   scm: git
-  version: 1.0.0
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-satellite-bootstrap.git
   scm: git
   version: 1.0.0
