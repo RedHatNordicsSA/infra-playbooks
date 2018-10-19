@@ -23,6 +23,7 @@
       rhv_vm_netmask: "{{ phpipam_netmask }}"
       rhv_vm_gw: "{{ phpipam_gw }}"
       rhv_vm_dns1: "{{ phpipam_nameserver1 }}"
+      rhv_vm_state: running
 
   - name: Setup in-memory inventory for just created VM
     add_host:
