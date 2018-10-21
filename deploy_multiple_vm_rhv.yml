@@ -12,11 +12,6 @@
     no_log: true
     include_vars: secrets.yml
 
-  - include_role:
-      name: ansible-role-phpipam-get-ip
-    vars:
-      phpipam_hostname: "{{ short_hostname + '.' + domain }}"
-
   - name: create vms in rhv
     include: includeFile_rhv_provisioning_multiple_vms.yml
       vars:
