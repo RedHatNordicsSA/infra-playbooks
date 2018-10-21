@@ -20,5 +20,6 @@
 
 - name: Setup in-memory inventory
   add_host:
-    name: "{{ phpipam_ip }}"
+    hostname: "{{ short_hostname + '.' + domain }}"
+    ansible_ssh_host: "{{ phpipam_ip }}"
     groups: "{{ inventory_groups }}"
