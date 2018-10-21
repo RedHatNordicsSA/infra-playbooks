@@ -27,3 +27,6 @@
 - geerlingguy.php
 - geerlingguy.mysql
 - marcelnijenhof.firewalld
+- name: gluster.infra
+  scm: git
+  src: https://github.com/gluster/gluster-ansible-infra
