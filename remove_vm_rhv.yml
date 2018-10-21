@@ -16,16 +16,16 @@
     vars:
       satellite_bootstrap_state: absent
 
-  - include_role:
+  - import_role:
       name: ansible-role-rhv-vm
     delegate_to: localhost
     become: false
     vars:
        rhv_vm_state: absent
-       
-  - include_role:
+
+  - import_role:
       name: ansible-role-nagios-bootstrap
     delegate_to: nagios.labrats.se
-    vars: 
+    vars:
       monitored_server: "{{ server_to_remove }}"
       nagios_bootstrap_state: absent
