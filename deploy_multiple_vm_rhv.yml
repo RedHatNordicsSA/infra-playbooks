@@ -1,0 +1,56 @@
+---
+- name: "[Play 1] Get IP and deploy a new VM in Red Hat Virtualization platform"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    vm_prefix:
+    num_vm: 1
+
+  tasks:
+  - name: Include secrets to be used
+    no_log: true
+    include_vars: secrets.yml
+
+  - include_role:
+      name: ansible-role-phpipam-get-ip
+    vars:
+      phpipam_hostname: "{{ short_hostname + '.' + domain }}"
+
+  - name: create vms in rhv
+    include: includeFile_rhv_provisioning_multiple_vms.yml
+      vars:
+        vm_num: "{{item}}"
+        inventory_groups:
+          - just_created_vms
+    with_sequence: start=1 end={{num_vm|int}}
+
+- name: "[Play 2] Post Configuration of VM, setup the identity of the server"
+  hosts: just_created_vms
+
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
+  - include_role:
+      name: ansible-role-resolv-conf
+  - include_role:
+      name: ansible-role-satellite-bootstrap
+  - include_role:
+      name: ansible-role-date-time
+  - include_role:
+      name: ansible-role-ipa-client
+  - include_role:
+      name: ansible-role-nagios-nrpe
+
+- name: "[Play 3] Post Configuration of monitoring, ensure system is monitored in Nagios"
+  hosts: nagios.labrats.se
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
+  - include_role:
+      name: ansible-role-nagios-bootstrap
+    vars:
+      monitored_server: "{{ short_hostname + '.' + domain }}"
+      nagios_bootstrap_state: present

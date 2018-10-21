@@ -1,0 +1,24 @@
+- name: Generating VM name(s)
+  set_fact:
+    short_hostname: "{{ vm_prefix + '-' + vm_num }}"
+
+- include_role:
+    name: ansible-role-phpipam-get-ip
+  vars:
+    phpipam_hostname: "{{ short_hostname + '.' + domain }}"
+
+- include_role:
+    name: ansible-role-rhv-vm
+  vars:
+    rhv_vm_name: "{{ short_hostname }}"
+    rhv_vm_domain: "{{ domain }}"
+    rhv_vm_ip: "{{ phpipam_ip }}"
+    rhv_vm_netmask: "{{ phpipam_netmask }}"
+    rhv_vm_gw: "{{ phpipam_gw }}"
+    rhv_vm_dns1: "{{ phpipam_nameserver1 }}"
+    rhv_vm_state: running
+
+- name: Setup in-memory inventory
+  add_host:
+    name: "{{ phpipam_ip }}"
+    groups: "{{ inventory_groups }}"
