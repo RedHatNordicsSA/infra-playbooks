@@ -37,15 +37,9 @@
       name: ansible-role-ipa-client
   - include_role:
       name: ansible-role-nagios-nrpe
-
-- name: "[Play 3] Post Configuration of monitoring, ensure system is monitored in Nagios"
-  hosts: nagios.labrats.se
-  tasks:
-  - name: Include secrets
-    no_log: true
-    include_vars: secrets.yml
-  - include_role:
+  - import_role:
       name: ansible-role-nagios-bootstrap
-    vars:
-      monitored_server: "{{ short_hostname + '.' + domain }}"
+    delegate_to: nagios.labrats.se
+      vars:
+      monitored_server: "{{ inventory_hostname }}"
       nagios_bootstrap_state: present
