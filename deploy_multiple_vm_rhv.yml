@@ -14,10 +14,10 @@
 
   - name: create vms in rhv
     include: includeFile_rhv_provisioning_multiple_vms.yml
-      vars:
-        vm_num: "{{item}}"
-        inventory_groups:
-          - just_created_vms
+    vars:
+      vm_num: "{{item}}"
+      inventory_groups:
+        - just_created_vms
     with_sequence: start=1 end={{num_vm|int}}
 
 - name: "[Play 2] Post Configuration of VM, setup the identity of the server"
