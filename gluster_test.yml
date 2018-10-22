@@ -7,8 +7,12 @@
       - rh-gluster-3-for-rhel-7-server-rpms
       - rh-gluster-3-nfs-for-rhel-7-server-rpms
       - rhel-ha-for-rhel-7-server-rpms
+    cluster_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
 
   tasks:
+  - name: Print version
+    debug:
+      msg: "cluster_hosts: {{ cluster_hosts }}"
   - name: Disable all RHSM repositories
     rhsm_repository:
       name: '*'
@@ -74,7 +78,7 @@
       name: gluster.cluster
     vars:
       # gluster volume
-      gluster_cluster_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
+      gluster_cluster_hosts: "{{ cluster_hosts }}"
       gluster_cluster_volume: testvol
       gluster_cluster_transport: 'tcp'
       gluster_cluster_force: 'yes'
