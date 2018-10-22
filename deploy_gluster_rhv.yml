@@ -70,6 +70,12 @@
       name: redhat-storage-server
       state: present
 
+  - name: Start service glusterd, if not started
+    service:
+      name: glusterd
+      state: started
+      enabled: yes
+
   - import_role:
       name: gluster.infra
     vars:
@@ -124,4 +130,5 @@
       #gluster_cluster_arbiter_count: 1
 
       # variables to set specific volume options
-      gluster_cluster_options: 'performance.cache-size:256MB'
+      gluster_cluster_options:
+        performance.cache-size: 256MB
