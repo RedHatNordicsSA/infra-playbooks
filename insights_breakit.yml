@@ -1,3 +1,4 @@
+---
 - name: "Break it for insights to fix :)"
   hosts: all
   become: true
@@ -24,6 +25,19 @@
 
   - name: restart sshd
     service: name=sshd state=restarted
+
+- name: bash_injection
+  hosts: all
+  become: true
+  vars:
+    affected_version:
+      '5': 'bash-3.2-33.el5.1'
+      '6': 'bash-4.1.2-15.el6_5.1'
+      '7': 'bash-4.2.45-5.el7_0.2'
+
+  tasks:
+  - name: Downgrade bash to affected version
+    command: yum -y downgrade {{affected_version[ansible_distribution_major_version]}}
 
   - name: Execute insights
     command: "redhat-access-insights"
