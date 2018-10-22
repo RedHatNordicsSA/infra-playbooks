@@ -29,3 +29,6 @@
 - name: gluster.infra
   scm: git
   src: https://github.com/gluster/gluster-ansible-infra
+- name: gluster.cluster
+  scm: git
+  scr: https://github.com/gluster/gluster-ansible-cluster
