@@ -68,7 +68,7 @@
       name: gluster.cluster
     vars:
       # gluster volume
-      gluster_cluster_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | join(',') }}"
+      gluster_cluster_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
       gluster_cluster_volume: testvol
       gluster_cluster_transport: 'tcp'
       gluster_cluster_force: 'yes'
