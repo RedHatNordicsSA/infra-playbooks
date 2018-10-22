@@ -1,0 +1,26 @@
+- name: "Break it for insights to fix :)"
+  hosts: all
+  become: true
+
+  tasks:
+  - name: downgrade openssh
+    shell: yum -y downgrade openssh-6.6.1p1-11.el7 openssh-clients-6.6.1p1-11.el7 openssh-server-6.6.1p1-11.el7
+
+  - name: set ChallengeResponseAuthentication
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      line: "ChallengeResponseAuthentication no"
+      regexp: ^\s*ChallengeResponseAuthentication\s
+      state: present
+      insertafter: "#ChallengeResponseAuthentication"
+
+  - name: set KbdInteractiveAuthentication
+    lineinfile:
+      dest: /etc/ssh/sshd_config
+      line: "KbdInteractiveAuthentication yes"
+      regexp: ^\s*KbdInteractiveAuthentication\s
+      state: present
+      insertafter: "#ChallengeResponseAuthentication"
+
+  - name: restart sshd
+    service: name=sshd state=restarted
