@@ -14,7 +14,7 @@
       name: '*'
       state: disabled
 
-  - name: Enable all needed repositories
+  - name: Enable all needed repositories.
     rhsm_repository:
       name: "{{ item }}"
       state: enabled
