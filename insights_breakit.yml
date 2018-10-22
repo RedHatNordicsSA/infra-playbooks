@@ -24,3 +24,6 @@
 
   - name: restart sshd
     service: name=sshd state=restarted
+
+  - name: Execute insights
+    command: "redhat-access-insights"
