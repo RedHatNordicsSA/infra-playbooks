@@ -78,7 +78,9 @@
       name: gluster.cluster
     vars:
       # gluster volume
-      gluster_cluster_hosts: "{{ cluster_hosts }}"
+      gluster_cluster_hosts:
+        - 10.1.62.5
+        - 10.1.62.12
       gluster_cluster_volume: testvol
       gluster_cluster_transport: 'tcp'
       gluster_cluster_force: 'yes'
