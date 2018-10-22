@@ -63,3 +63,20 @@
       # Mount the devices
       gluster_infra_mount_devices:
         - { path: '/gluster_bricks/gluster_vg1_thinlv', vgname: 'gluster_vg1', lvname: 'gluster_vg1_thinlv' }
+
+  - import_role:
+      name: gluster.cluster
+    vars:
+      # gluster volume
+      gluster_cluster_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | join(',') }}"
+      gluster_cluster_volume: testvol
+      gluster_cluster_transport: 'tcp'
+      gluster_cluster_force: 'yes'
+      gluster_cluster_bricks: '/gluster_bricks/gluster_vg1_thinlv'
+
+      # variables to create specific type of the volume
+      gluster_cluster_replica_count: "{{ num_vm }}"
+      #gluster_cluster_arbiter_count: 1
+
+      # variables to set specific volume options
+      gluster_cluster_options: 'performance.cache-size:256MB'
