@@ -35,14 +35,14 @@
       name: ansible-role-date-time
   - include_role:
       name: ansible-role-ipa-client
-  - include_role:
-      name: ansible-role-nagios-nrpe
-  - import_role:
-      name: ansible-role-nagios-bootstrap
-    delegate_to: nagios.labrats.se
-    vars:
-      monitored_server: "{{ inventory_hostname }}"
-      nagios_bootstrap_state: present
+  #- include_role:
+  #    name: ansible-role-nagios-nrpe
+  #- import_role:
+  #    name: ansible-role-nagios-bootstrap
+  #  delegate_to: nagios.labrats.se
+  #  vars:
+  #    monitored_server: "{{ inventory_hostname }}"
+  #    nagios_bootstrap_state: present
 
 - name: "[Play 3] Install and configure gluster"
   hosts: just_created_vms
@@ -64,6 +64,11 @@
       name: "{{ item }}"
       state: enabled
     with_items: "{{ repos }}"
+
+  - name: Install Red Hat Gluster Storage
+    package:
+      name: redhat-storage-server
+      state: present
 
   - import_role:
       name: gluster.infra
