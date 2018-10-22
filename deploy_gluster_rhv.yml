@@ -125,6 +125,3 @@
 
       # variables to set specific volume options
       gluster_cluster_options: 'performance.cache-size:256MB'
-
-    roles:
-      - gluster.cluster

@@ -1,3 +1,4 @@
+---
 - src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-resolv-conf.git
   scm: git
   version: 1.0.0
