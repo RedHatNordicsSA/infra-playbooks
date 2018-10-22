@@ -68,10 +68,7 @@
       name: gluster.cluster
     vars:
       # gluster volume
-      #gluster_cluster_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
-      gluster_cluster_hosts:
-        - 10.1.62.5
-        - 10.1.62.12
+      gluster_cluster_hosts: "{{ groups['all'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) | list }}"
       gluster_cluster_volume: testvol
       gluster_cluster_transport: 'tcp'
       gluster_cluster_force: 'yes'
@@ -82,4 +79,5 @@
       #gluster_cluster_arbiter_count: 1
 
       # variables to set specific volume options
-      gluster_cluster_options: 'performance.cache-size:256MB'
+      gluster_cluster_options:
+        performance.cache-size: 256MB
