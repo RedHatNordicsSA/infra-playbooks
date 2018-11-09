@@ -37,7 +37,7 @@
       name: ansible-role-ipa-client
   - include_role:
       name: ansible-role-nagios-nrpe
-  - import_role:
+ # - import_role:
       name: ansible-role-nagios-bootstrap
     delegate_to: nagios.labrats.se
       vars:
