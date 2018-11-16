@@ -1,5 +1,5 @@
 ---
-- name: "Break it for insights to fix :)"
+- name: "CVE_2015_5600"
   hosts: all
   become: true
 

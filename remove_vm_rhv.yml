@@ -27,5 +27,5 @@
       name: ansible-role-nagios-bootstrap
     delegate_to: nagios.labrats.se
     vars:
-      monitored_server: "{{ server_to_remove }}"
+      monitored_server: "{{ inventory_hostname }}"
       nagios_bootstrap_state: absent
