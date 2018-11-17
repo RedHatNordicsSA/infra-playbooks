@@ -13,8 +13,6 @@
 
   - include_role:
       name: ansible-role-satellite-bootstrap
-      apply:
-        ignore_errors: yes
     vars:
       satellite_bootstrap_state: absent
 
