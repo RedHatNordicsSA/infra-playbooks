@@ -2,19 +2,16 @@
 - name: "[Play 1] Gather standard info from Gluster nodes"
   hosts: all
   gather_facts: true
+  become: yes
 
   tasks:
-  - name: Include secrets to be used
-    no_log: true
-    include_vars: secrets.yml
-      
   - name: Get gluster peer status
     command: gluster peer status
     register: gpstatus
     
   - name: Print gluster peer status
     debug:
-      msg: {{ gpstatus.stdout }}
+      msg: "{{ gpstatus.stdout }}"
       
   - name: Get gluster volumes
     command: gluster volume list
@@ -22,7 +19,7 @@
     
   - name: Print gluster volumes
     debug:
-      msg: {{ gvlist.stdout }} 
+      msg: "{{ gvlist.stdout }}"
       
   - name: Get gluster volumes status
     command: gluster volume status
@@ -30,4 +27,4 @@
     
   - name: Print gluster volumes status
     debug:
-      msg: {{ gvstatus.stdout }}     
+      msg: "{{ gvstatus.stdout }}"   
