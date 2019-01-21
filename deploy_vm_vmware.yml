@@ -1,0 +1,61 @@
+---
+- name: "[Play 1] Get IP and deploy a new VM in VMware platform"
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+  - name: Include secrets to be used
+    no_log: true
+    include_vars: secrets.yml
+
+  - include_role:
+      name: ansible-role-phpipam-get-ip
+    vars:
+      phpipam_hostname: "{{ short_hostname + '.' + domain }}"
+
+  - include_role:
+      name: ansible-role-vmware-vm
+    vars:
+      vmguest_name: "{{ short_hostname }}"
+      vmguest_domain: "{{ domain }}"
+      vmguest_ip: "{{ phpipam_ip }}"
+      vmguest_netmask: "{{ phpipam_netmask }}"
+      vmguest_gw: "{{ phpipam_gw }}"
+      vmguest_dns1: "{{ phpipam_nameserver1 }}"
+      vmguest_state: poweredon
+
+  - name: Setup in-memory inventory for just created VM
+    add_host:
+      name: "{{ phpipam_ip }}"
+      groups: just_created_vms
+
+- name: "[Play 2] Post Configuration of VM, setup the identity of the server"
+  hosts: just_created_vms
+
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
+  - include_role:
+      name: ansible-role-resolv-conf
+  - include_role:
+      name: ansible-role-satellite-bootstrap
+  - include_role:
+      name: ansible-role-date-time
+  - include_role:
+      name: ansible-role-ipa-client
+  - include_role:
+      name: ansible-role-nagios-nrpe
+
+- name: "[Play 3] Post Configuration of monitoring, ensure system is monitored in Nagios"
+  hosts: nagios.labrats.se
+  tasks:
+  - name: Include secrets
+    no_log: true
+    include_vars: secrets.yml
+  - include_role:
+      name: ansible-role-nagios-bootstrap
+    vars:
+      monitored_server: "{{ short_hostname + '.' + domain }}"
+      nagios_bootstrap_state: present
