@@ -16,13 +16,20 @@
     vars:
       satellite_bootstrap_state: absent
 
-  - import_role:
+  #- import_role:
+  #    name: ansible-role-rhv-vm
+  #  delegate_to: 127.0.0.1
+  #  become: false
+  #  vars:
+  #     rhv_vm_state: absent
+  - include_role:
       name: ansible-role-rhv-vm
-    delegate_to: 127.0.0.1
-    become: false
+      apply:
+        delegate_to: 127.0.0.1
+        become: false
     vars:
        rhv_vm_state: absent
-
+  
   - import_role:
       name: ansible-role-nagios-bootstrap
     delegate_to: nagios.labrats.se
