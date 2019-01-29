@@ -18,7 +18,7 @@
 
   - import_role:
       name: ansible-role-rhv-vm
-    delegate_to: localhost
+    delegate_to: 127.0.0.1
     become: false
     vars:
        rhv_vm_state: absent
