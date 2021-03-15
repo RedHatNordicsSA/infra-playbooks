@@ -1,0 +1,24 @@
+---
+# yamllint disable rule:line-length
+
+- name: Cleanup hosts in the inventory
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - awx.awx
+  vars:
+    inv_to_scrub: "Demo Inventory"
+  tasks:
+
+    - name: Remove the hosts from an inventory
+      tower_host:
+        name: "{{ item['id'] }}"
+        inventory: "{{ inv_to_scrub }}"
+        validate_certs: false
+        state: absent
+      loop: "{{ lookup('awx.awx.tower_api', 'hosts', query_params={ 'inventory': inventory_id }, wantlist=True) }}"
+      loop_control:
+        label: "{{ item['name'] }}"
+      vars:
+        inventory_id: "{{ lookup('awx.awx.tower_api', 'inventories', query_params={ 'name': inv_to_scrub }, expect_one=True)['id'] }}"

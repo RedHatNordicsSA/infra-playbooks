@@ -1,0 +1,104 @@
+---
+# yamllint disable rule:line-length
+
+- name: Create IBM Cloud VPC VSI
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: get resource groud id
+      ibm.cloudcollection.ibm_resource_group_info:
+        name: "{{ resource_group }}"
+      register: resource_group_info
+
+    - name: get ssh key id
+      ibm.cloudcollection.ibm_is_ssh_key_info:
+        name: "{{ ssh_public_key }}"
+      register: ssh_info
+
+    - name: get vpc id
+      ibm.cloudcollection.ibm_is_vpc_info:
+        name: "{{ vpc }}"
+      register: vpc_info
+
+    - name: get subnet id
+      ibm.cloudcollection.ibm_is_subnet_info:
+        name: "{{ subnet }}"
+      register: subnet_info
+
+    - name: Configure VSI
+      ibm.cloudcollection.ibm_is_instance:
+        resource_group: "{{ resource_group_info.resource.id }}"
+        name: "{{ name_prefix }}"
+        state: available
+        vpc: "{{ vpc_info.resource.id }}"
+        profile: "{{ vsi_profile }}"
+        image: "{{ os_image }}"
+        keys:
+          - "{{ ssh_info.resource.id }}"
+        primary_network_interface:
+          - subnet: "{{ subnet_info.resource.id }}"
+        zone: "{{ zone }}"
+        region: "{{ region }}"
+      register: vsi
+      ignore_errors: true
+
+    - name: Create tower inventory
+      awx.awx.tower_inventory:
+        name: "Demo Inventory"
+        description: "Temporary inventory for hosts to be created"
+        organization: "Default"
+        state: present
+        validate_certs: false
+
+    - name: Save Server IP Address for future use
+      set_stats:
+        data:
+          server_ip: "{{ vsi.resource.primary_network_interface[0]['primary_ipv4_address'] }}"
+          server_name: "{{ name_prefix }}"
+      when: vsi is succeeded
+
+    - name: Add tower host
+      awx.awx.tower_host:
+        name: "{{ name_prefix }}"
+        inventory: "Demo Inventory"
+        state: present
+        validate_certs: false
+        variables:
+          ansible_host: "{{ vsi.resource.primary_network_interface[0]['primary_ipv4_address'] }}"
+
+    - name: Add host to temporary group for new vms
+      awx.awx.tower_group:
+        name: new_vms
+        inventory: "Demo Inventory"
+        hosts:
+          - "{{ name_prefix }}"
+        validate_certs: false
+      when: vsi is succeeded
+
+    - name: Add host to temporary group for failed vms
+      awx.awx.tower_group:
+        name: failed_vms
+        inventory: "Demo Inventory"
+        hosts:
+          - "{{ name_prefix }}"
+        validate_certs: false
+      when:
+        - vsi is failed
+        - vsi.resource.primary_network_interface[0]['primary_ipv4_address'] == ''
+
+    - name: abort when either VM creation failed
+      fail:
+        msg: "VM creation failed, aborting after adding host to failed inventory"
+      when:
+        - vsi is failed
+        - vsi.resource.primary_network_interface[0]['primary_ipv4_address'] == ''
+
+    - name: Wait for Virtual Machine to boot up and become responsive to SSH
+      wait_for:
+        port: 22
+        host: "{{ vsi.resource.primary_network_interface[0]['primary_ipv4_address'] }}"
+        search_regex: OpenSSH
+        delay: 10
+        timeout: 600
+      when: vsi is succeeded

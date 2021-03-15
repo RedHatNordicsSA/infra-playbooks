@@ -1,0 +1,7 @@
+---
+- name: Set name resolution
+  hosts: all
+  tasks:
+
+    - include_role:
+        name: ansible-role-resolv-conf

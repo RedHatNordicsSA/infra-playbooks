@@ -1,0 +1,14 @@
+---
+- name: Unregister from Satellite and wipe certs
+  hosts: all
+  remote_user: root
+  tasks:
+
+    - name: Unregister from satellite
+      community.general.redhat_subscription:
+        state: absent
+
+    - name: remove the old satellite certs and settings
+      yum:
+        name: 'katello-ca*' 
+        state: absent
