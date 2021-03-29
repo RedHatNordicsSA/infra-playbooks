@@ -1,27 +1,25 @@
 ---
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-resolv-conf.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-resolv-conf.git
   scm: git
-  version: 1.0.0
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-date-time.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-date-time.git
   scm: git
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-phpipam-get-ip.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-phpipam-get-ip.git
   scm: git
-  version: 1.0.0
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-rhv-vm.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-rhv-vm.git
   scm: git
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-satellite-bootstrap.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-satellite-bootstrap.git
   scm: git
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-ipa-client.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-ipa-client.git
   scm: git
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-nagios-nrpe.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-nagios-nrpe.git
   scm: git
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-nagios-bootstrap.git
+- src: https://github.com/RedHatNordicsSA/ansible-role-nagios-bootstrap.git
   scm: git
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-ovirt-guest.git
-  scm: git
-- src: git@gitlab.labrats.se:internal-ansible-galaxy/ansible-role-dist-pub-key
-  scm: git
-- redhataccess.redhat-access-insights-client
+# - src: https://github.com/RedHatNordicsSA/ansible-role-ovirt-guest.git
+#   scm: git
+# - src: https://github.com/RedHatNordicsSA/ansible-role-dist-pub-key
+#   scm: git
+- RedHatInsights.insights-client
 - geerlingguy.git
 - geerlingguy.apache
 - geerlingguy.php

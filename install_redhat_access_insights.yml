@@ -5,4 +5,4 @@
   vars:
 
   roles:
-  - { role: redhataccess.redhat-access-insights-client, when: ansible_os_family == 'RedHat' }
+  - { role: RedHatInsights.insights-client, when: ansible_os_family == 'RedHat' }
