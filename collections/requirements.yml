@@ -3,3 +3,4 @@ collections:
  - awx.awx
  - ibm.cloudcollection
  - community.general
+ - redhat.satellite
