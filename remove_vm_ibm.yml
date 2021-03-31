@@ -10,7 +10,7 @@
       include_tasks:
         remove_vm_ibm_tasks.yml
       ibm.cloudcollection.ibm_is_floating_ip_info:
-        name: "{{ name_prefix }}-fip"
+        name: "{{ server_name }}-fip"
       register: floating_ip
       ignore_errors: true
 
@@ -22,7 +22,7 @@
 
     - name: get vsi id
       ibm.cloudcollection.ibm_is_instance_info:
-        name: "{{ name_prefix }}"
+        name: "{{ server_name }}"
       register: instance
 
     - name: destroy a vm

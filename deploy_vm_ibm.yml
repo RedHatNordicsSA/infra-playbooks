@@ -29,7 +29,7 @@
     - name: Configure VSI
       ibm.cloudcollection.ibm_is_instance:
         resource_group: "{{ resource_group_info.resource.id }}"
-        name: "{{ name_prefix }}"
+        name: "{{ server_name }}"
         state: available
         vpc: "{{ vpc_info.resource.id }}"
         profile: "{{ vsi_profile }}"
@@ -55,12 +55,12 @@
       set_stats:
         data:
           server_ip: "{{ vsi.resource.primary_network_interface[0]['primary_ipv4_address'] }}"
-          server_name: "{{ name_prefix }}"
+          server_name: "{{ server_name }}"
       when: vsi is succeeded
 
     - name: Add tower host
       awx.awx.tower_host:
-        name: "{{ name_prefix }}"
+        name: "{{ server_name }}"
         inventory: "Demo Inventory"
         state: present
         validate_certs: false
@@ -72,7 +72,7 @@
         name: new_vms
         inventory: "Demo Inventory"
         hosts:
-          - "{{ name_prefix }}"
+          - "{{ server_name }}"
         validate_certs: false
       when: vsi is succeeded
 
@@ -81,7 +81,7 @@
         name: failed_vms
         inventory: "Demo Inventory"
         hosts:
-          - "{{ name_prefix }}"
+          - "{{ server_name }}"
         validate_certs: false
       when:
         - vsi is failed
