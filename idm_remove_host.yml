@@ -1,0 +1,28 @@
+---
+# yamllint disable rule:line-length
+
+- hosts: "{{ ipa_fqdn | default('idm.lab.sohlberg.io') }}"
+  connection: local
+  vars:
+    organization: 'satellite_inventory'
+    node_group: 'foreman_delete_us'
+
+  tasks:
+
+    - name: Include all secret credentials
+      no_log: true
+      include_vars: secrets.yml
+
+    - name: Remove all hosts in inventory group "{{ node_group }}" from IdM from org "{{ organization }}"
+      community.general.ipa_host:
+        name: "{{ item }}"
+        state: absent
+        ipa_host: "{{ ipa_fqdn }}"
+        ipa_user: "{{ ipa_client_enroll_user }}"
+        ipa_pass: "{{ ipa_client_enroll_pass }}"
+        update_dns: True
+      with_items: "{{ groups[node_group] }}"
+      register: remove_hosts_result
+
+    - debug:
+        var: remove_hosts_result
