@@ -1,0 +1,22 @@
+---
+# yamllint disable rule:line-length
+
+- hosts: "{{ tower_fqdn | default('tower.lab.sohlberg.io') }}"
+  connection: local
+  vars:
+    organization: 'satellite_inventory'
+    node_group: 'foreman_delete_us'
+    domain: "{{ domain | default('.lab.sohlberg.io') }}"
+
+  tasks:
+
+    - name: Remove all hosts in inventory group "{{ node_group }}" from IBM cloud from org "{{ organization }}"
+      include_tasks:
+        remove_vm_ibm_tasks.yml
+      vars:
+        server_name: "{{ item.split('.')[0] }}"
+      loop: "{{ groups[node_group] }}"
+      register: remove_hosts_result
+
+    - debug:
+        var: remove_hosts_result
