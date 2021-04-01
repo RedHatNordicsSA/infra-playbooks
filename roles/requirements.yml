@@ -31,3 +31,4 @@
 - name: gluster.cluster
   scm: git
   src: https://github.com/gluster/gluster-ansible-cluster
+- name: zaxos.tomcat-ansible-role

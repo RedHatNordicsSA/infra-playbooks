@@ -1,0 +1,9 @@
+---
+
+- name: install basic tomcat
+  hosts: all
+  tasks:
+
+    - name: role tomcat
+      include_role:
+        name: zaxos.tomcat-ansible-role
